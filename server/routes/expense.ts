@@ -36,6 +36,10 @@ export const expenseRoutes = new Hono()
         }
         return c.json({ expense })
     })
+    .get("/total", (c) => {
+        const total = InMemoryExpenses.reduce((acc, e) => acc + e.amount, 0)
+        return c.json({ total })
+    })
     .delete("/:id{[0-9]+}", (c) => {
         const id = parseInt(c.req.param("id"))
         const index = InMemoryExpenses.findIndex(e => e.id === id)
