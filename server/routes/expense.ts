@@ -36,7 +36,8 @@ export const expenseRoutes = new Hono()
         }
         return c.json({ expense })
     })
-    .get("/total", (c) => {
+    .get("/total", async (c) => {
+        await new Promise((r) => setTimeout(r, 1500))
         const total = InMemoryExpenses.reduce((acc, e) => acc + e.amount, 0)
         return c.json({ total })
     })
