@@ -51,18 +51,16 @@ function Index() {
     if (error) return <div>Error: {error.message}</div>;
 
     return (
-        <>
-            <div className=" flex items-center justify-center bg-gradient-to-r from-slate-900 to-slate-700">
-                <Card className="w-1/2 pt-6 m-8 text-center backdrop-blur-md bg-slate-600 bg-opacity-50 border-transparent rounded-lg hover:shadow-2xl hover:shadow-blue-500/20 hover:bg-slate-400/80">
-                    <CardHeader>
-                        <CardTitle>Card Title</CardTitle>
-                        <CardDescription>Card Description</CardDescription>
-                    </CardHeader>
-                    <CardContent className="font-semibold text-2xl">
-                        {isPending ? <ProgressDemo /> : data.total}
-                    </CardContent>
-                </Card>
-            </div>
-        </>
+        <div className="absolute w-screen flex items-center justify-center bg-[radial-gradient(ellipse_20%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]">
+            <Card className=" text-sky-50 pt-6 w-2/5 m-28 text-center backdrop-blur-lg bg-page-gradient border-white/30 text-md font-geistSans hover:border-zinc-600 hover:bg-transparent/10 hover:text-zinc-100">
+                <CardHeader>
+                    <CardTitle>Card Title</CardTitle>
+                    <CardDescription>Card Description</CardDescription>
+                </CardHeader>
+                <CardContent className="font-semibold text-2xl">
+                    {isPending ? <ProgressDemo /> : data.total}
+                </CardContent>
+            </Card>
+        </div>
     );
 }
