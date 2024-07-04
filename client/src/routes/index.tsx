@@ -51,7 +51,7 @@ function Index() {
     if (error) return <div>Error: {error.message}</div>;
 
     return (
-        <div className="absolute w-screen flex items-center justify-center bg-[radial-gradient(ellipse_20%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]">
+        <div className="absolute w-screen flex items-center justify-center bg-inherit bg-[radial-gradient(ellipse_20%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]">
             <Card className=" text-sky-50 pt-6 w-2/5 m-28 text-center backdrop-blur-lg bg-page-gradient border-white/30 text-md font-geistSans hover:border-zinc-600 hover:bg-transparent/10 hover:text-zinc-100">
                 <CardHeader>
                     <CardTitle>Card Title</CardTitle>

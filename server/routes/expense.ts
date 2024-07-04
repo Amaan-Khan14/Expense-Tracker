@@ -19,7 +19,8 @@ const InMemoryExpenses: Expense[] = [
 ]
 
 export const expenseRoutes = new Hono()
-    .get('/', (c) => {
+    .get('/', async (c) => {
+        await new Promise((r) => setTimeout(r, 1500))
         return c.json({ expense: InMemoryExpenses })
     })
     .post('/', zValidator("json", createExpense), async (c) => {
