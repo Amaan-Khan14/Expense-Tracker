@@ -38,42 +38,41 @@ function Expenses() {
 
   if (error) return <div>Error: {error.message}</div>;
   return (
-    <div className="absolute w-screen flex justify-center bg-inherit bg-[radial-gradient(ellipse_20%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]">
-      <div className='mt-36 w-2/5'>
-        <Card className=" text-sky-50 pt-6 text-center backdrop-blur-lg bg-page-gradient border-white/10 text-md font-geistSans hover:border-zinc-600 hover:bg-transparent/10 hover:text-zinc-100">
-          <Table className=''>
-            <TableCaption>A list of your expenses .</TableCaption>
-            <TableHeader>
-              <TableRow className='hover:bg-inherit '>
-                <TableHead className="w-[100px] text-2xl p-6 font-bold text-center">Id</TableHead>
-                <TableHead className="w-[100px] p-6 text-2xl text-center font-bold">Title</TableHead>
-                <TableHead className="w-[100px] p-6 text-2xl text-center font-bold">Amount</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {isPending ?
-                Array(3)
-                  .fill(0)
-                  .map((_, i) => (
-                    <TableRow key={i}>
-                      <TableCell className='p-6 w-[100px]'><Skeleton className=" h-4 rounded-full bg-indigo-300/40 " />
-                      </TableCell>
-                      <TableCell className='p-6 w-[100px]'><Skeleton className="h-4 rounded-full bg-indigo-300/40" />
-                      </TableCell>
-                      <TableCell className='p-6 w-[100px]'><Skeleton className="h-4 rounded-full bg-indigo-300/40" />
-                      </TableCell>
-                    </TableRow>
-                  )) : data?.expense.map((expense: any) => (
-                    <TableRow key={expense.id} className='hover:bg-inherit'>
-                      <TableCell className='p-6 w-[100px]  text-indigo-300 text-lg font-semibold '>{expense.id}</TableCell>
-                      <TableCell className='p-6 w-[100px] text-lg  text-indigo-300 text-center font-semibold'>{expense.title}</TableCell>
-                      <TableCell className='p-6 w-[100px] text-lg text-indigo-300 text-center font-semibold'>{expense.amount}</TableCell>
-                    </TableRow>
-                  ))}
-            </TableBody>
-          </Table>
-        </Card>
-      </div>
+    <div className="absolute w-screen flex items-center justify-center ">
+      <img src="https://tailwindcss.com/_next/static/media/docs@30.8b9a76a2.avif" className='absolute top-0 opacity-50' />
+      <Card className=" text-sky-50 pt-6 w-1/2 mt-36 text-center bg-inherit shadow-2xl border-2 border-white/5 text-md font-geistSans hover:border-zinc-600 hover:bg-transparent/10">
+        <Table>
+          <TableCaption className='bg-gradient-to-br from-indigo-400 via-indigo-300 to-indigo-700 bg-clip-text text-transparent'>A list of your expenses .</TableCaption>
+          <TableHeader>
+            <TableRow className='hover:bg-inherit '>
+              <TableHead className="w-[100px] text-4xl p-6 font-bold text-center text-transparent bg-clip-text bg-gradient-to-r to-blue-800 from-zinc-100">Id</TableHead>
+              <TableHead className="w-[100px] p-6 text-4xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-r to-blue-800 from-zinc-100">Title</TableHead>
+              <TableHead className="w-[100px] p-6 text-4xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-r to-blue-800 from-zinc-100">Amount</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody >
+            {isPending ?
+              Array(3)
+                .fill(0)
+                .map((_, i) => (
+                  <TableRow key={i}>
+                    <TableCell className='p-6 w-[100px]'><Skeleton className=" h-4 rounded-full bg-indigo-300/40 " />
+                    </TableCell>
+                    <TableCell className='p-6 w-[100px]'><Skeleton className="h-4 rounded-full bg-indigo-300/40" />
+                    </TableCell>
+                    <TableCell className='p-6 w-[100px]'><Skeleton className="h-4 rounded-full bg-indigo-300/40" />
+                    </TableCell>
+                  </TableRow>
+                )) : data?.expense.map((expense: any) => (
+                  <TableRow key={expense.id} className='hover:bg-inherit'>
+                    <TableCell className='p-6 w-[100px]   text-2xl font-semibold '>{expense.id}</TableCell>
+                    <TableCell className='p-6 w-[100px] text-2xl  text-center font-semibold'>{expense.title}</TableCell>
+                    <TableCell className='p-6 w-[100px] text-2xl  text-center font-semibold'>{expense.amount}</TableCell>
+                  </TableRow>
+                ))}
+          </TableBody>
+        </Table>
+      </Card>
     </div>
   )
 }

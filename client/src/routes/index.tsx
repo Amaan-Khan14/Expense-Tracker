@@ -51,11 +51,12 @@ function Index() {
     if (error) return <div>Error: {error.message}</div>;
 
     return (
-        <div className="absolute w-screen flex items-center justify-center bg-inherit bg-[radial-gradient(ellipse_20%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]">
-            <Card className=" text-sky-50 pt-6 w-2/5 m-28 text-center backdrop-blur-lg bg-page-gradient border-white/30 text-md font-geistSans hover:border-zinc-600 hover:bg-transparent/10 hover:text-zinc-100">
+        <div className="absolute w-screen flex items-center justify-center ">
+            <img src="https://tailwindcss.com/_next/static/media/docs@30.8b9a76a2.avif" className='absolute top-0 opacity-50 ' />
+            <Card className="text-sky-50 pt-6 w-1/2 mt-36 text-center shadow-2xl bg-page-gradient border-2 border-white/5 font-geistSans hover:bg-transparent/10 hover:border-zinc-600">
                 <CardHeader>
-                    <CardTitle>Card Title</CardTitle>
-                    <CardDescription>Card Description</CardDescription>
+                    <CardTitle className="bg-gradient-to-br from-indigo-400 via-indigo-300 to-indigo-700 bg-clip-text text-transparent text-6xl">Card Title</CardTitle>
+                    <CardDescription className="bg-gradient-to-tr from-zinc-100 via-zinc-200/50 to-zinc-200/90 text-transparent bg-clip-text animate-text text-5xl">Card Description</CardDescription>
                 </CardHeader>
                 <CardContent className="font-semibold text-2xl">
                     {isPending ? <ProgressDemo /> : data.total}
