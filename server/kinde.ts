@@ -1,10 +1,11 @@
-import { createKindeServerClient, GrantType, SessionManager } from "@kinde-oss/kinde-typescript-sdk";
+import { createKindeServerClient, GrantType, SessionManager, UserType, } from "@kinde-oss/kinde-typescript-sdk";
 import { type Context } from "hono";
 import {
     getCookie,
     setCookie,
     deleteCookie,
 } from 'hono/cookie'
+import { createFactory, createMiddleware } from 'hono/factory'
 
 // Client for authorization code flow
 export const kindeClient = createKindeServerClient(GrantType.AUTHORIZATION_CODE, {
@@ -42,3 +43,23 @@ export const sessionManager = (c: Context): SessionManager => ({
         });
     },
 });
+
+type Env = {
+    Variables: {
+        user: UserType
+    }
+}
+
+export const getUserProfile = createMiddleware<Env>(async (c, next) => {
+    try {
+        const isAuthenticated = await kindeClient.isAuthenticated(sessionManager(c));
+        if (!isAuthenticated) {
+            return c.json({ error: "Not authenticated" });
+        }
+        const user = await kindeClient.getUserProfile(sessionManager(c));
+        c.set("user", user);
+    } catch (error) {
+        console.error(error);
+        return c.json({ error: "Not authenticated" });
+    }
+})
