@@ -1,11 +1,11 @@
 import { Hono } from "hono";
-import { z } from "zod";
+import { date, z } from "zod";
 import { zValidator } from "@hono/zod-validator";
 
 const expenseSchema = z.object({
     id: z.number().positive().int(),
     title: z.string(),
-    amount: z.number().positive().int()
+    amount: z.number().positive().int(),
 })
 
 const createExpense = expenseSchema.omit({ id: true })
