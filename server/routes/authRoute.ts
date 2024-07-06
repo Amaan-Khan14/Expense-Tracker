@@ -22,5 +22,10 @@ export const authRoute = new Hono()
     })
     .get("/me", async (c) => {
         const isAuthenticated = await kindeClient.isAuthenticated(sessionManager(c));
-        return c.json({ isAuthenticated });
+        if (!isAuthenticated) {
+            return c.json({ error: "Not authenticated" });
+        }
+        const user = await kindeClient.getUserProfile(sessionManager(c));
+        return c.json({ user });
+
     })
