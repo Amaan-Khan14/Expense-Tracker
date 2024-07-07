@@ -37,12 +37,6 @@ function Expenses() {
     queryKey: ["get-all-expenses"],
     queryFn: fetchAllExpenses,
   });
-  const formattedDate = data?.expense.map((expense: any) => {
-    return {
-      ...expense,
-      date: new Date(expense.date).toLocaleDateString(undefined, { year: "numeric", month: "2-digit", day: "2-digit" })
-    }
-  })
 
   if (error) return <div>Error: {error.message}</div>;
   return (

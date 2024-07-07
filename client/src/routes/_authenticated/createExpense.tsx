@@ -10,6 +10,7 @@ import { ReloadIcon } from "@radix-ui/react-icons"
 import { format, parse, isValid } from 'date-fns';
 import { zodValidator } from '@tanstack/zod-form-adapter'
 import { createExpense } from "../../../../server/validation";
+import { z } from 'zod';
 
 
 export const Route = createFileRoute("/_authenticated/createExpense")({
