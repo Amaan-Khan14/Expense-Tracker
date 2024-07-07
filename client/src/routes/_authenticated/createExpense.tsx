@@ -7,6 +7,8 @@ import { useForm } from '@tanstack/react-form'
 import type { FieldApi } from '@tanstack/react-form'
 import { api } from "../../lib/api";
 import { ReloadIcon } from "@radix-ui/react-icons"
+import { format, parse, isValid } from 'date-fns';
+import { Calendar } from "../../components/ui/calendar"
 
 
 
@@ -36,7 +38,8 @@ function createExpenses() {
   const form = useForm({
     defaultValues: {
       title: '',
-      amount: 0
+      amount: 0,
+      date: new Date()
     },
     onSubmit: async ({ value }) => {
       await new Promise((resolve) => setTimeout(resolve, 3000))
@@ -127,6 +130,43 @@ function createExpenses() {
                           type="number"
                           onChange={(e) => field.handleChange(Number(e.target.value))}
                           className="my-2 bg-transparent/10 border-2 border-white/30 text-white text-lg focus:[box-shadow:0_-20px_80px_-20px_#8686f01f_inset] focus:border-white/50"
+                        />
+                        <FieldInfo field={field} />
+                      </>
+                    )
+                  }}
+                />
+              </div>
+              <div>
+                <form.Field
+                  name="date"
+                  validators={{
+                    onChange: ({ value }) =>
+                      !value
+                        ? 'An amount is required'
+                        : undefined,
+                    onChangeAsyncDebounceMs: 500,
+                  }}
+                  children={(field) => {
+                    // Avoid hasty abstractions. Render props are great!
+                    return (
+                      <>
+                        <Label className="bg-gradient-to-tr from-zinc-100 via-zinc-200/50 to-zinc-200/90 text-transparent bg-clip-text text-lg">Date</Label>
+                        <Input
+                          id={field.name}
+                          name={field.name}
+                          value={field.state.value ? format(new Date(field.state.value), 'yyyy-MM-dd') : ''}
+                          onBlur={field.handleBlur}
+                          type="date"
+                          onChange={(e) => {
+                            const date = parse(e.target.value, 'yyyy-MM-dd', new Date());
+                            if (isValid(date)) {
+                              field.handleChange(date);
+                            } else {
+                              field.handleChange(new Date());
+                            }
+                          }}
+                          className="my-2 w-full bg-transparent/10 border-2 border-white/30 text-white text-lg rounded-md focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 hover:border-white/40 transition-all duration-200 placeholder-white/50"
                         />
                         <FieldInfo field={field} />
                       </>

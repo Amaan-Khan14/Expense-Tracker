@@ -12,6 +12,8 @@ import {
   TableRow,
 } from "../../components/ui/table"
 import { Card } from '../../components/ui/card';
+import { format } from 'date-fns';
+
 
 
 export const Route = createFileRoute('/_authenticated/expenses')({
@@ -68,14 +70,17 @@ function Expenses() {
                     </TableCell>
                     <TableCell className='p-6 w-[100px]'><Skeleton className="h-4 rounded-full bg-indigo-300/40" />
                     </TableCell>
+                    <TableCell className='p-6 w-[100px]'><Skeleton className="h-4 rounded-full bg-indigo-300/40" />
+                    </TableCell>
                   </TableRow>
                 )) : data?.expense.map((expense: any) => (
                   <TableRow key={expense.id} className='hover:bg-inherit'>
                     <TableCell className='p-6 w-[100px]   text-2xl font-semibold '>{expense.id}</TableCell>
                     <TableCell className='p-6 w-[100px] text-2xl  text-center font-semibold'>{expense.title}</TableCell>
                     <TableCell className='p-6 w-[100px] text-2xl  text-center font-semibold'>{expense.amount}</TableCell>
-                    <TableCell className='p-6 w-[100px] text-2xl  text-center font-semibold'>{formattedDate}</TableCell>
-
+                    <TableCell className='p-6 w-[100px] text-2xl text-center font-semibold'>
+                      {format(new Date(expense.date), 'yyyy-MM-dd')}
+                    </TableCell>
                   </TableRow>
                 ))}
           </TableBody>
