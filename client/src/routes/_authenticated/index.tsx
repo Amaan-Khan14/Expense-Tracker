@@ -8,12 +8,12 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from "../components/ui/card";
-import { Progress } from "../components/ui/progress";
-import { api } from "../lib/api";
+} from "../../components/ui/card";
+import { Progress } from "../../components/ui/progress";
+import { api } from "../../lib/api";
 import { useQuery } from "@tanstack/react-query";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_authenticated/")({
     component: Index,
 });
 

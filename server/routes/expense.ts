@@ -1,6 +1,7 @@
 import { Hono } from "hono";
-import {  z } from "zod";
+import { z } from "zod";
 import { zValidator } from "@hono/zod-validator";
+import { getUserProfile } from "../kinde";
 
 const expenseSchema = z.object({
     id: z.number().positive().int(),
@@ -19,17 +20,17 @@ const InMemoryExpenses: Expense[] = [
 ]
 
 export const expenseRoutes = new Hono()
-    .get('/', async (c) => {
+    .get('/', getUserProfile, async (c) => {
         await new Promise((r) => setTimeout(r, 1500))
         return c.json({ expense: InMemoryExpenses })
     })
-    .post('/', zValidator("json", createExpense), async (c) => {
+    .post('/', getUserProfile, zValidator("json", createExpense), async (c) => {
         const expense = await c.req.valid("json")
         const id = InMemoryExpenses.length + 1
         InMemoryExpenses.push({ ...expense, id })
         return c.json({ expense: InMemoryExpenses })
     })
-    .get("/:id{[0-9]+}", (c) => {
+    .get("/:id{[0-9]+}", getUserProfile, (c) => {
         const id = parseInt(c.req.param("id"))
         const expense = InMemoryExpenses.find(e => e.id === id)
         if (!expense) {
@@ -37,12 +38,12 @@ export const expenseRoutes = new Hono()
         }
         return c.json({ expense })
     })
-    .get("/total", async (c) => {
+    .get("/total", getUserProfile, async (c) => {
         await new Promise((r) => setTimeout(r, 1500))
         const total = InMemoryExpenses.reduce((acc, e) => acc + e.amount, 0)
         return c.json({ total })
     })
-    .delete("/:id{[0-9]+}", (c) => {
+    .delete("/:id{[0-9]+}", getUserProfile, (c) => {
         const id = parseInt(c.req.param("id"))
         const index = InMemoryExpenses.findIndex(e => e.id === id)
         if (index === -1) {

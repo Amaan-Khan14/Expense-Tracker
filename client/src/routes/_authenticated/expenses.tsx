@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Skeleton } from "../components/ui/skeleton"
-import { api } from "../lib/api";
+import { Skeleton } from "../../components/ui/skeleton"
+import { api } from "../../lib/api";
 import { useQuery } from "@tanstack/react-query";
 import {
   Table,
@@ -10,11 +10,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../components/ui/table"
-import { Card } from '../components/ui/card';
+} from "../../components/ui/table"
+import { Card } from '../../components/ui/card';
 
 
-export const Route = createFileRoute('/expenses')({
+export const Route = createFileRoute('/_authenticated/expenses')({
   component: Expenses,
 })
 

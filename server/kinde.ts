@@ -62,4 +62,5 @@ export const getUserProfile = createMiddleware<Env>(async (c, next) => {
         console.error(error);
         return c.json({ error: "Not authenticated" });
     }
+    await next();
 })

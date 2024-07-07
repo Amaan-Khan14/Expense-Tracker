@@ -1,16 +1,16 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Label } from "../components/ui/label";
-import { Input } from "../components/ui/input";
-import { Card } from "../components/ui/card";
-import { Button } from "../components/ui/button";
+import { Label } from "../../components/ui/label";
+import { Input } from "../../components/ui/input";
+import { Card } from "../../components/ui/card";
+import { Button } from "../../components/ui/button";
 import { useForm } from '@tanstack/react-form'
 import type { FieldApi } from '@tanstack/react-form'
-import { api } from "../lib/api";
+import { api } from "../../lib/api";
 import { ReloadIcon } from "@radix-ui/react-icons"
 
 
 
-export const Route = createFileRoute("/createExpense")({
+export const Route = createFileRoute("/_authenticated/createExpense")({
   component: createExpenses,
 });
 
