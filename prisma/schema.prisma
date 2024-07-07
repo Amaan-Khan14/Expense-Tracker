@@ -12,3 +12,13 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Expenses {
+  id     Int      @id @default(autoincrement())
+  title  String
+  amount Decimal  @db.Decimal(12, 2)
+  userId String
+  date   DateTime @default(now()) @db.Date
+
+  @@index([userId], name: "name_idx")
+}

@@ -1,38 +1,59 @@
 import { Hono } from "hono";
-import { z } from "zod";
+import { date, z } from "zod";
 import { zValidator } from "@hono/zod-validator";
 import { getUserProfile } from "../kinde";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 const expenseSchema = z.object({
     id: z.number().positive().int(),
     title: z.string(),
     amount: z.number().positive().int(),
+    date: z.date().optional().transform((d) => d?.toLocaleDateString(undefined, { year: "numeric", month: "2-digit", day: "2-digit" })),
 })
 
 const createExpense = expenseSchema.omit({ id: true })
 
 type Expense = z.infer<typeof expenseSchema>
 
-const InMemoryExpenses: Expense[] = [
-    { id: 1, title: "Rent", amount: 1000 },
-    { id: 2, title: "Food", amount: 200 },
-    { id: 3, title: "Transport", amount: 100 },
-]
-
 export const expenseRoutes = new Hono()
     .get('/', getUserProfile, async (c) => {
         await new Promise((r) => setTimeout(r, 1500))
-        return c.json({ expense: InMemoryExpenses })
+        const user = c.var.user
+        const expenses = await prisma.expenses.findMany({
+            where: {
+                userId: user.id
+            }
+        })
+        return c.json({ expense: expenses })
     })
     .post('/', getUserProfile, zValidator("json", createExpense), async (c) => {
         const expense = await c.req.valid("json")
-        const id = InMemoryExpenses.length + 1
-        InMemoryExpenses.push({ ...expense, id })
-        return c.json({ expense: InMemoryExpenses })
+        const user = c.var.user
+        const createExpense = await prisma.expenses.create({
+            data: {
+                title: expense.title,
+                amount: expense.amount,
+                date: expense.date,
+                userId: user.id
+            },
+            select: {
+                id: true,
+                title: true,
+                amount: true,
+                date: true
+            }
+        })
+        return c.json({ expense: createExpense })
     })
-    .get("/:id{[0-9]+}", getUserProfile, (c) => {
+    .get("/:id{[0-9]+}", getUserProfile, async (c) => {
         const id = parseInt(c.req.param("id"))
-        const expense = InMemoryExpenses.find(e => e.id === id)
+        const expense = await prisma.expenses.findFirst({
+            where: {
+                id: id
+            }
+        })
         if (!expense) {
             return c.notFound()
         }
@@ -40,15 +61,21 @@ export const expenseRoutes = new Hono()
     })
     .get("/total", getUserProfile, async (c) => {
         await new Promise((r) => setTimeout(r, 1500))
-        const total = InMemoryExpenses.reduce((acc, e) => acc + e.amount, 0)
+        const result = await prisma.expenses.aggregate({
+            _sum: {
+                amount: true
+            }
+        })
+        const total = result._sum.amount ?? 0
+
         return c.json({ total })
     })
-    .delete("/:id{[0-9]+}", getUserProfile, (c) => {
-        const id = parseInt(c.req.param("id"))
-        const index = InMemoryExpenses.findIndex(e => e.id === id)
-        if (index === -1) {
-            return c.notFound()
-        }
-        InMemoryExpenses.splice(index, 1)
-        return c.json({ expense: InMemoryExpenses })
-    })
+// .delete("/:id{[0-9]+}", getUserProfile, (c) => {
+//     const id = parseInt(c.req.param("id"))
+//     const index = InMemoryExpenses.findIndex(e => e.id === id)
+//     if (index === -1) {
+//         return c.notFound()
+//     }
+//     InMemoryExpenses.splice(index, 1)
+//     return c.json({ expense: InMemoryExpenses })
+// })

@@ -35,6 +35,12 @@ function Expenses() {
     queryKey: ["get-all-expenses"],
     queryFn: fetchAllExpenses,
   });
+  const formattedDate = data?.expense.map((expense: any) => {
+    return {
+      ...expense,
+      date: new Date(expense.date).toLocaleDateString(undefined, { year: "numeric", month: "2-digit", day: "2-digit" })
+    }
+  })
 
   if (error) return <div>Error: {error.message}</div>;
   return (
@@ -47,6 +53,7 @@ function Expenses() {
               <TableHead className="w-[100px] text-4xl p-6 font-bold text-center text-transparent bg-clip-text bg-gradient-to-r to-blue-800 from-zinc-100">Id</TableHead>
               <TableHead className="w-[100px] p-6 text-4xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-r to-blue-800 from-zinc-100">Title</TableHead>
               <TableHead className="w-[100px] p-6 text-4xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-r to-blue-800 from-zinc-100">Amount</TableHead>
+              <TableHead className="w-[100px] p-6 text-4xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-r to-blue-800 from-zinc-100">Created At</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody >
@@ -67,6 +74,8 @@ function Expenses() {
                     <TableCell className='p-6 w-[100px]   text-2xl font-semibold '>{expense.id}</TableCell>
                     <TableCell className='p-6 w-[100px] text-2xl  text-center font-semibold'>{expense.title}</TableCell>
                     <TableCell className='p-6 w-[100px] text-2xl  text-center font-semibold'>{expense.amount}</TableCell>
+                    <TableCell className='p-6 w-[100px] text-2xl  text-center font-semibold'>{formattedDate}</TableCell>
+
                   </TableRow>
                 ))}
           </TableBody>
