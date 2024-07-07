@@ -8,8 +8,8 @@ import type { FieldApi } from '@tanstack/react-form'
 import { api } from "../../lib/api";
 import { ReloadIcon } from "@radix-ui/react-icons"
 import { format, parse, isValid } from 'date-fns';
-import { Calendar } from "../../components/ui/calendar"
-
+import { zodValidator } from '@tanstack/zod-form-adapter'
+import { createExpense } from "../../../../server/validation";
 
 
 export const Route = createFileRoute("/_authenticated/createExpense")({
@@ -36,6 +36,7 @@ function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
 function createExpenses() {
   const navigate = useNavigate()
   const form = useForm({
+    validatorAdapter: zodValidator(),
     defaultValues: {
       title: '',
       amount: 0,
@@ -64,21 +65,9 @@ function createExpenses() {
               <div>
                 <form.Field
                   name="title"
+                  validatorAdapter={zodValidator()}
                   validators={{
-                    onChange: ({ value }) =>
-                      !value
-                        ? 'A first name is required'
-                        : value.length < 3
-                          ? 'First name must be at least 3 characters'
-                          : undefined,
-                    onChangeAsyncDebounceMs: 500,
-                    onChangeAsync: async ({ value }) => {
-                      await new Promise((resolve) => setTimeout(resolve, 1000))
-                      return (
-                        value.includes('error') &&
-                        'No "error" allowed in first name'
-                      )
-                    },
+                    onChange: createExpense.shape.title,
                   }}
                   children={(field) => {
                     // Avoid hasty abstractions. Render props are great!
@@ -103,19 +92,9 @@ function createExpenses() {
               <div>
                 <form.Field
                   name="amount"
+                  validatorAdapter={zodValidator()}
                   validators={{
-                    onChange: ({ value }) =>
-                      !value
-                        ? 'An amount is required'
-                        : undefined,
-                    onChangeAsyncDebounceMs: 500,
-                    onChangeAsync: async ({ value }) => {
-                      await new Promise((resolve) => setTimeout(resolve, 1000))
-                      return (
-                        isNaN(Number(value)) &&
-                        'Value must be a number'
-                      )
-                    },
+                    onChange: createExpense.shape.amount,
                   }}
                   children={(field) => {
                     // Avoid hasty abstractions. Render props are great!
@@ -140,12 +119,9 @@ function createExpenses() {
               <div>
                 <form.Field
                   name="date"
+                  validatorAdapter={zodValidator()}
                   validators={{
-                    onChange: ({ value }) =>
-                      !value
-                        ? 'An amount is required'
-                        : undefined,
-                    onChangeAsyncDebounceMs: 500,
+                    onChange: createExpense.shape.date,
                   }}
                   children={(field) => {
                     // Avoid hasty abstractions. Render props are great!

@@ -3,22 +3,9 @@ import { date, z } from "zod";
 import { zValidator } from "@hono/zod-validator";
 import { getUserProfile } from "../kinde";
 import { PrismaClient } from "@prisma/client";
+import { createExpense } from "../validation";
 
 const prisma = new PrismaClient();
-
-const expenseSchema = z.object({
-    id: z.number().positive().int(),
-    title: z.string(),
-    amount: z.number().positive().int(),
-    date: z.preprocess(
-        (arg) => (arg instanceof Date ? arg : new Date(arg as string)),
-        z.date().transform((d) => d.toLocaleDateString(undefined, { year: "numeric", month: "2-digit", day: "2-digit" }))
-    ).optional(),
-})
-
-const createExpense = expenseSchema.omit({ id: true });
-
-type Expense = z.infer<typeof expenseSchema>
 
 export const expenseRoutes = new Hono()
     .get('/', getUserProfile, async (c) => {
