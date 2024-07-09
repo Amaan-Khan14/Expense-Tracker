@@ -27,9 +27,9 @@ export function Profile() {
     <div >
       <Drawer>
         <DrawerTrigger>Profile</DrawerTrigger>
-        <DrawerContent className='flex items-center justify-center h-4/5 bg-transparent bg-gradient-to-r from-slate-800 to-slate-700 border-2 border-white/30 '>
+        <DrawerContent className='flex items-center justify-center h-4/5 bg-transparent bg-gradient-to-r from-slate-800 to-slate-700 border-2 border-white/30 mx-96'>
           <img src="https://tailwindcss.com/_next/static/media/docs-dark@tinypng.1bbe175e.png" className='absolute top-0 right-48 opacity-80 ' />
-          <div className='flex flex-col absolute top-0 right-0'>
+          <div className='flex flex-col absolute top-0'>
             <div className=' w-screen flex items-center justify-center' >
               <Card className="text-sky-50 pt-6 mt-10 w-1/4 text-center shadow-2xl bg-page-gradient [box-shadow:0_-20px_80px_-20px_#8686f01f_inset] border-2 border-white/5 font-geistSans hover:bg-transparent/10 hover:border-zinc-600">
                 <CardContent>

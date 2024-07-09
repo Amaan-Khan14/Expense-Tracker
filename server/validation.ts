@@ -8,6 +8,7 @@ const expenseSchema = z.object({
         (arg) => (arg instanceof Date ? arg : new Date(arg as string)),
         z.date().transform((d) => d.toLocaleDateString(undefined, { year: "numeric", month: "2-digit", day: "2-digit" }))
     ).optional(),
+    userId: z.string()
 })
 
 export const createExpense = expenseSchema.omit({ id: true });

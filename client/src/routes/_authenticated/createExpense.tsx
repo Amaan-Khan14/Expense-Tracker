@@ -5,12 +5,14 @@ import { Card } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
 import { useForm } from '@tanstack/react-form'
 import type { FieldApi } from '@tanstack/react-form'
-import { api } from "../../lib/api";
+import { api, fetchAllExpensesQueryOptions } from "../../lib/api";
 import { ReloadIcon } from "@radix-ui/react-icons"
 import { format, parse, isValid } from 'date-fns';
 import { zodValidator } from '@tanstack/zod-form-adapter'
 import { createExpense } from "../../../../server/validation";
-import { z } from 'zod';
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+// import { toast } from "../../components/ui/sonner";
 
 
 export const Route = createFileRoute("/_authenticated/createExpense")({
@@ -32,24 +34,43 @@ function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
 }
 
 
-
-
 function createExpenses() {
+  const queryClient = useQueryClient()
   const navigate = useNavigate()
   const form = useForm({
     validatorAdapter: zodValidator(),
     defaultValues: {
       title: '',
       amount: 0,
-      date: new Date()
-    },
-    onSubmit: async ({ value }) => {
-      await new Promise((resolve) => setTimeout(resolve, 3000))
-      const res = await api.expenses.$post({ json: value })
-      if (!res.ok) {
-        throw new Error('Failed to create expense')
+      date: new Date(),
+      userId: '1'
+    }, onSubmit: async ({ value }) => {
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 3000))
+        const existingExpenses = await queryClient.ensureQueryData(fetchAllExpensesQueryOptions)
+        const res = await api.expenses.$post({ json: value })
+
+        if (!res.ok) {
+          throw new Error('Failed to create expense')
+        }
+
+        const newExpense = await res.json()
+        queryClient.setQueryData(fetchAllExpensesQueryOptions.queryKey, {
+          ...existingExpenses,
+          expense: [newExpense.expense, ...existingExpenses.expense]
+        })
+
+        // toast('Success', {
+        //   description: `Expense created successfully ${value.title}`
+        // })
+
+        navigate({ to: '/expenses' })
+      } catch (error) {
+        console.error('Error creating expense:', error)
+        // toast('Error', {
+        //   description: error instanceof Error ? error.message : `Failed to create expense ${value.title}`
+        // })
       }
-      navigate({ to: '/expenses' })
     },
   })
   return (

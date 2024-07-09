@@ -21,3 +21,31 @@ export const userQueryoptions = queryOptions({
     staleTime: Infinity,
 })
 
+export async function fetchAllExpenses() {
+    const response = await api.expenses.$get();
+    if (!response.ok) {
+        throw new Error("Failed to fetch expenses");
+    }
+    const data = response.json();
+    return data;
+}
+
+export const fetchAllExpensesQueryOptions = queryOptions({
+
+    queryKey: ["get-all-expenses"],
+    queryFn: fetchAllExpenses,
+})
+
+
+export async function deleteExpenses({ id }: { id: number }) {
+    const response = await api.expenses[':id{[0-9]+}'].$delete(
+        {
+            param: { id: id.toString() }
+        });
+    if (!response.ok) {
+        throw new Error("Failed to delete expense");
+    }
+    const data = response.json();
+    return data;
+
+}

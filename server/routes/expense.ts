@@ -30,7 +30,12 @@ export const expenseRoutes = new Hono()
         const expense = await c.req.valid("json");
         const user = c.var.user;
         if (expense.date) {
-            expense.date = new Date(expense.date).toISOString();
+            const [month, day, year] = expense.date.split('/').map(Number);
+
+            const utcDate = new Date(Date.UTC(year, month - 1, day));
+
+            expense.date = utcDate.toISOString();
+
         };
         const createExpense = await prisma.expenses.create({
             data: {
@@ -43,9 +48,10 @@ export const expenseRoutes = new Hono()
                 id: true,
                 title: true,
                 amount: true,
-                date: true
-            }
-        })
+                date: true,
+                userId: true
+            },
+        });
         return c.json({ expense: createExpense });
     })
     .get("/:id{[0-9]+}", getUserProfile, async (c) => {
