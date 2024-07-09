@@ -60,16 +60,16 @@ function createExpenses() {
           expense: [newExpense.expense, ...existingExpenses.expense]
         })
 
-        // toast('Success', {
-        //   description: `Expense created successfully ${value.title}`
-        // })
+        toast('Success', {
+          description: `Expense created successfully ${value.title}`
+        })
 
         navigate({ to: '/expenses' })
       } catch (error) {
         console.error('Error creating expense:', error)
-        // toast('Error', {
-        //   description: error instanceof Error ? error.message : `Failed to create expense ${value.title}`
-        // })
+        toast('Error', {
+          description: error instanceof Error ? error.message : `Failed to create expense ${value.title}`
+        })
       }
     },
   })
