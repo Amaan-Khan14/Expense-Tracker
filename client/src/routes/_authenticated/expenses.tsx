@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Skeleton } from "../../components/ui/skeleton"
-import { api, deleteExpenses, fetchAllExpensesQueryOptions } from "../../lib/api";
+import { deleteExpenses, fetchAllExpensesQueryOptions } from "../../lib/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Table,
@@ -121,5 +121,3 @@ function ExpenseDelete({ id, title }: { id: number; title: string }) {
     </div>
   );
 }
-
-export default ExpenseDelete;
