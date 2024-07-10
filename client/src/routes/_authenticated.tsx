@@ -13,10 +13,10 @@ const Login = () => {
       <div className="absolute w-screen flex items-center justify-center ">
         <Card className="text-sky-50 pt-6 w-1/2 mt-36 text-center shadow-2xl bg-page-gradient [box-shadow:0_-20px_80px_-20px_#8686f01f_inset] border-2 border-white/5 font-geistSans hover:bg-transparent/10 hover:border-zinc-600">
           <CardHeader>
-            <CardTitle className="bg-gradient-to-br from-indigo-400 via-indigo-300 to-indigo-700 bg-clip-text text-transparent text-6xl">Enter to manage your SpendLog</CardTitle>
-            <CardDescription className="bg-gradient-to-br from-zinc-100 via-zinc-200/50 to-zinc-200/90 text-transparent bg-clip-text animate-text text-5xl">
-              <a href="/api/login">Login</a>
-            </CardDescription>
+            <CardTitle className="bg-gradient-to-br from-indigo-400 via-indigo-300 to-indigo-700 bg-clip-text text-transparent text-6xl font-medium">Enter to manage your SpendLog</CardTitle>
+              <div className='flex my-4 items-center justify-center'>
+                <a href='/api/login' className="text-transparent bg-clip-text m-10 bg-gradient-to-r to-blue-800 from-zinc-100 text-2xl [box-shadow:0_-20px_80px_-20px_#8686f01f_inset] border-2 w-1/2 text-center p-2 border-white/5 rounded-lg bg-zinc-500/10 tracking-wide font-semibold">Login</a>
+              </div>            
           </CardHeader>
         </Card>
       </div>
