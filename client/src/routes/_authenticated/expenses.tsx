@@ -30,7 +30,7 @@ function Expenses() {
   if (error) return <div>Error: {error.message}</div>;
   return (
     <div className="absolute w-full flex items-center justify-center ">
-      <Card className=" text-sky-50 pt-6 my-36 text-center bg-page-gradient [box-shadow:0_-20px_80px_-20px_#8686f01f_inset] shadow-2xl border-2 border-white/5 text-md font-geistSans hover:border-zinc-600 hover:bg-transparent/10">
+      <Card className=" text-sky-50 pt-6 my-36 w-1/2 text-center bg-page-gradient [box-shadow:0_-20px_80px_-20px_#8686f01f_inset] shadow-2xl border-2 border-white/5 text-md font-geistSans hover:border-zinc-600 hover:bg-transparent/10">
         <Table>
           <TableCaption className=' bg-gradient-to-br from-zinc-100 via-zinc-200/50 to-zinc-200/90 bg-clip-text text-transparent text-xl'>A list of your expenses .</TableCaption>
           <TableHeader>

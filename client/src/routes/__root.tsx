@@ -1,6 +1,5 @@
 import { type QueryClient } from "@tanstack/react-query";
 import { createRootRouteWithContext, Link, Outlet } from "@tanstack/react-router";
-import { Profile } from "./_authenticated/profile";
 import { Toaster } from "../components/ui/sonner";
 
 export interface MyRouteContext {
@@ -31,7 +30,7 @@ function Home() {
                             <Link to="/createExpense" className="hover:text-white">Create</Link>
                         </li>
                         <li className="transition ease-in-out delay-300 hover:-translate-y-1.5 hover:scale-11 duration-500 block relative z-10 py-2.5 px-3 text-xs text-white cursor-pointer md:py-2 md:px-5 md:text-base mix-blend-difference">
-                            <Link to="/profile" className="hover:text-white">{<Profile />}</Link>
+                            <Link to="/profile" className="hover:text-white">Profile</Link>
                         </li>
                     </ul>
                 </div>
