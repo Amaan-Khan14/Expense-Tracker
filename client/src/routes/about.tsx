@@ -2,11 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import {
     Card,
     CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
 } from "../components/ui/card";
-import { Label } from '@radix-ui/react-label';
 export const Route = createFileRoute('/about')({
     component: About,
 })

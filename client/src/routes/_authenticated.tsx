@@ -2,7 +2,6 @@ import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { userQueryoptions } from "../lib/api";
 import {
   Card,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "../components/ui/card";
